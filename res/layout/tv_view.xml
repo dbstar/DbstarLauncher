@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="1280dp"
+    android:layout_height="720dp"
+    android:background="@drawable/view_background" >
+
+    <RelativeLayout
+        android:id="@+id/view_header"
+        android:layout_width="fill_parent"
+        android:layout_height="88dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="0dp"
+        android:layout_marginTop="0dp">
+
+        <TextView
+            android:id="@+id/pageNumberView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="40dp"
+            android:textColor="#ffffff"
+            android:textSize="16sp" />
+    </RelativeLayout>
+
+    <GridView
+        android:id="@+id/gridview"
+        android:layout_width="1200dp"
+        android:layout_height="200dp"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/view_header"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="8dp"
+        android:columnWidth="150dp"
+        android:gravity="center"
+        android:horizontalSpacing="10dp"
+        android:numColumns="7"
+        android:stretchMode="columnWidth"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:nextFocusDown="@+id/tvEpisodesListView" >
+        <requestFocus />
+        </GridView>
+
+    <TextView
+        android:id="@+id/movieTitle"
+        android:layout_width="600dp"
+        android:layout_height="50dp"
+        android:layout_below="@id/gridview"
+        android:layout_alignParentLeft="true"
+        android:layout_gravity="center"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="20dp"
+        android:textColor="#ffffffff"
+        android:textSize="22sp"
+        android:focusable="false"
+        android:focusableInTouchMode="false" />
+    
+      <GridView
+        android:id="@+id/tvEpisodesListView"
+        android:layout_width="580dp"
+        android:layout_height="350dp"
+        android:layout_below="@id/gridview"
+        android:layout_toRightOf="@id/movieTitle"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:columnWidth="60dp"
+        android:gravity="center"
+        android:numColumns="7"
+        android:stretchMode="columnWidth"
+        android:nextFocusLeft="@id/gridview"
+        android:nextFocusUp="@id/gridview"/>
+
+    <ScrollView
+        android:id="@+id/movieInfoView"
+        android:layout_width="600dp"
+        android:layout_height="270dp"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/movieTitle"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="20dp" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:focusable="false"
+        	android:focusableInTouchMode="false" >
+
+            <TextView
+                android:id="@+id/movieDirector"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:textColor="#ffffffff"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/movieActors"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:textColor="#ffffffff"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/movieType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:textColor="#ffffffff"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/movieRegion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:textColor="#ffffffff"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/movieDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textColor="#ffffffff"
+                android:textSize="16sp" />
+        </LinearLayout>
+    </ScrollView>
+	
+	<RelativeLayout
+        android:id="@+id/view_Footer"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="0dp"
+        android:layout_marginTop="0dp">
+
+        <LinearLayout
+            android:id="@+id/menupath_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="110dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+            
+            <TextView
+                android:id="@+id/menupath_level1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:textColor="#ffffffff"
+                android:textSize="16sp"
+                android:visibility="invisible" />
+            
+            <ImageView
+	            android:id="@+id/menupath_level1_delimiter"
+	            android:layout_width="16dp"
+	            android:layout_height="16dp"
+	            android:scaleType="fitXY"
+	            android:src="@drawable/menupath_delimiter"
+	            android:visibility="invisible" />
+            
+             <TextView
+                android:id="@+id/menupath_level2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:textColor="#ffffffff"
+                android:textSize="16sp"
+                android:visibility="invisible" />
+            
+            <ImageView
+	            android:id="@+id/menupath_level2_delimiter"
+	            android:layout_width="16dp"
+	            android:layout_height="16dp"
+	            android:scaleType="fitXY"
+	            android:src="@drawable/menupath_delimiter"
+	            android:visibility="invisible" />
+            
+             <TextView
+                android:id="@+id/menupath_level3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:textColor="#ffffffff"
+                android:textSize="16sp"
+                android:visibility="invisible" />
+             
+        </LinearLayout>
+    </RelativeLayout>
+</RelativeLayout>
