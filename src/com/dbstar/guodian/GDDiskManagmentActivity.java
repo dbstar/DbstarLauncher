@@ -70,6 +70,12 @@ public class GDDiskManagmentActivity extends GDBaseActivity {
 		mRenderer.setMargins(new int[] { 20, 30, 15, 0 });
 		//mRenderer.setZoomButtonsVisible(true);
 		mRenderer.setStartAngle(90);
+		
+		
+		initializeView();
+		
+		mMenuPath = intent.getStringExtra(INTENT_KEY_MENUPATH);
+		showMenuPath(mMenuPath.split(MENU_STRING_DELIMITER));
 	}
 
 	@Override
@@ -93,6 +99,9 @@ public class GDDiskManagmentActivity extends GDBaseActivity {
 
 	private void showDiskInfo() {
 		GDDiskInfo.DiskInfo diskInfo = GDDiskInfo.getDiskInfo(mDisk, true);
+		if (diskInfo == null)
+			return;
+
 		mDiskSize = diskInfo.RawDiskSize;
 		mDiskEmptySpace = diskInfo.RawDiskSpace;
 		mDiskUsedSize = diskInfo.RawDiskSize - diskInfo.RawDiskSpace;

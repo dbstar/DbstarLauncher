@@ -36,7 +36,8 @@
             <TextView
                 android:id="@+id/text_version"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:text="@string/userinfo_system_version_number"/>
         </TableRow>
 
         <TableRow>
@@ -115,4 +116,11 @@
         </TableRow>
     </TableLayout>
 
+    <include
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        layout="@layout/footerview" />
+        
 </RelativeLayout>

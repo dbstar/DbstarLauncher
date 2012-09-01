@@ -25,6 +25,7 @@ import android.os.Binder;
 import android.os.Message;
 import android.util.Log;
 import android.os.Process;
+import android.os.SystemProperties;
 
 public class GDDataProviderService extends Service {
 
@@ -113,6 +114,7 @@ public class GDDataProviderService extends Service {
 		String disk = mDataAccessor.getStorageDisk();
 		Log.d(TAG, "monitor disk " + disk);
 		if (!disk.isEmpty()) {
+			mDiskIsReady = true;
 			mDiskMonitor.addDiskToMonitor(disk);
 		}
 		
@@ -177,30 +179,16 @@ public class GDDataProviderService extends Service {
 	private static final String SmartHomePrepertyName = "dbstar.smarthome.started";
 	
 	private void startDbStarService() {
-		Log.d(TAG, "startDbStarService");
-		SharedPreferences settings = getSharedPreferences(DVBPrepertyName, 0);
-	    SharedPreferences.Editor editor = settings.edit();
-	    editor.putInt(DVBPrepertyName, 1);
-	    editor.commit();
-	    
-	    settings = getSharedPreferences(SmartHomePrepertyName, 0);
-	    editor = settings.edit();
-	    editor.putInt(SmartHomePrepertyName, 1);
-	    editor.commit();
+		Log.d(TAG, "++++++++++++++++++startDbStarService++++++++++++++++++++");
+		SystemProperties.set(DVBPrepertyName, "1");
+		SystemProperties.set(SmartHomePrepertyName, "1");
 	}
 	
 	private void stopDbStarService() {
-		Log.d(TAG, "stopDbStarService");
+		Log.d(TAG, "++++++++++++++++++stopDbStarService++++++++++++++++++++");
 		
-		SharedPreferences settings = getSharedPreferences(DVBPrepertyName, 0);
-	    SharedPreferences.Editor editor = settings.edit();
-	    editor.putInt(DVBPrepertyName, 0);
-	    editor.commit();
-	    
-	    settings = getSharedPreferences(SmartHomePrepertyName, 0);
-	    editor = settings.edit();
-	    editor.putInt(SmartHomePrepertyName, 0);
-	    editor.commit();
+		SystemProperties.set(DVBPrepertyName, "0");
+		SystemProperties.set(SmartHomePrepertyName, "0");
 	}
 	
 	private Handler mHandler = new Handler() {
@@ -218,7 +206,8 @@ public class GDDataProviderService extends Service {
 			case GDCommon.MSG_MEDIA_MOUNTED: {
 				Bundle data = msg.getData();
 				String disk = data.getString("disk");
-				Log.d(TAG, "mount storage = " + disk);
+				//Log.d(TAG, "mount storage = " + disk);
+				Log.d(TAG, " ++++++++++++++++ mount storage +++++++++++++++");
 				
 				String storage = mDataAccessor.getStorageDisk();
 				
@@ -239,7 +228,7 @@ public class GDDataProviderService extends Service {
 					mApplicationObserver.initializeApp();
 					
 					disk = mDataAccessor.getStorageDisk();
-					Log.d(TAG, "monitor disk " + disk);
+					Log.d(TAG, " +++++++++++ monitor disk " + disk);
 					if (!disk.isEmpty()) {
 						mDiskMonitor.removeDiskFromMonitor(disk);
 						mDiskMonitor.addDiskToMonitor(disk);
@@ -257,6 +246,7 @@ public class GDDataProviderService extends Service {
 
 			case GDCommon.MSG_NETWORK_CONNECT:
 				getMacAddress();
+				Log.d(TAG, " ++++++++++++++++ network connected +++++++++++++++");
 				mNetworkIsReady = true;
 				if (mDiskIsReady && mNetworkIsReady) {
 					startDbStarService();
@@ -264,6 +254,7 @@ public class GDDataProviderService extends Service {
 				
 				break;
 			case GDCommon.MSG_NETWORK_DISCONNECT:
+				Log.d(TAG, " ++++++++++++++++ network disconnected +++++++++++++++");
 				mNetworkIsReady = false;
 				stopDbStarService();
 				break;

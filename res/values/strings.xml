@@ -3,7 +3,7 @@
 
     <string name="app_name">Guodian_launcher</string>
     
-    <string name="hotline">服务热线: 400&#8211;165&#8211;3438</string>
+    <string name="hotline">服务热线: 4000&#8211;300&#8211;888</string>
     <string name="organization">《中国电力报》：国电集团部署2012年基建工作</string>
     <string name="desc"> </string>
     <string name="GDVideoView_error_text_invalid_progressive_playback">格式不对</string>
@@ -41,7 +41,7 @@
 	<string name="menulevel1_item_smarthome">智能家居</string>
 	<string name="menulevel1_item_hdmovie">电影</string>
 	<string name="menulevel1_item_tv">剧情</string>
-	<string name="menulevel1_item_record">记录</string>
+	<string name="menulevel1_item_record">纪录</string>
 	<string name="menulevel1_item_zongyi">综合</string>
 	<string name="menulevel1_item_paper">报纸</string>
 	<string name="menulevel1_item_journal">杂志</string>
@@ -49,13 +49,18 @@
 	<string name="menulevel1_item_3d">3D体验</string>
 	<string name="menulevel1_item_demo">试看</string>
 	<string name="menulevel1_item_iptv">IPTV</string>
+	<string name="menulevel1_item_variety">综合</string>
+	<string name="menulevel1_item_healthy">数字健康</string>
+	<string name="menulevel1_item_trailer">预告</string>
+	<string name="menulevel1_item_children">少儿</string>
+	<string name="menulevel1_item_settings">设置</string>
 	
 	<string name="menulevel2_item_guowangkuaixun">国网快讯</string>
 	<string name="menulevel2_item_shipindongtai">视频动态</string>
 	<string name="menulevel2_item_guojiadianwangbao">国家电网报</string>
 	<string name="menulevel2_item_dingshirenwu">定时任务</string>
 	<string name="menulevel2_item_yijiankongzhi">一键控制</string>
-	<string name="menulevel2_item_wodedianqi">我的电器</string>
+	<string name="menulevel2_item_wodedianqi">电器管理</string>
 	<string name="menulevel2_item_haongnengfenxi">耗能分析</string>
 	<string name="menulevel2_item_wodeyongdian">我的用电</string>
 	<string name="menulevel2_item_yongdianmingxi">用电明细</string>
@@ -91,6 +96,7 @@
 	<string name="receivestatus_diskspace">剩余空间/磁盘空间</string>
 	
 	<string name="userinfo_system_version">系统版本</string>
+	<string name="userinfo_system_version_number">1.0</string>
 	<string name="userinfo_user_card_number">用户卡号</string>
 	<string name="userinfo_macaddress">本终端mac地址</string>
 	<string name="userinfo_user_card_validity_term">用户卡有效期</string>

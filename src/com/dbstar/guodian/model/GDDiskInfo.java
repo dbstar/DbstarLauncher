@@ -1,10 +1,15 @@
 package com.dbstar.guodian.model;
 
+import java.io.File;
+
 import android.os.StatFs;
+import android.util.Log;
 
 import com.dbstar.guodian.util.StringUtil;
 
 public class GDDiskInfo {
+
+	private static final String TAG = "GDDiskInfo";
 
 	static public class DiskInfo {
 		public long RawDiskSize;
@@ -15,12 +20,19 @@ public class GDDiskInfo {
 	}
 
 	static public DiskInfo getDiskInfo(String diskPath, boolean convert) {
+		Log.d(TAG, diskPath);
+		DiskInfo info = null;
+		
+		File disk = new File(diskPath);
+		if (disk == null || !disk.exists())
+			return info;
+		
 		StatFs sf = new StatFs(diskPath);
 		long blockSize = sf.getBlockSize();
 		long blockCount = sf.getBlockCount();
 		long availCount = sf.getAvailableBlocks();
 
-		DiskInfo info = new DiskInfo();
+		info = new DiskInfo();
 
 		long diskSize = blockSize * blockCount;
 		info.RawDiskSize = diskSize;

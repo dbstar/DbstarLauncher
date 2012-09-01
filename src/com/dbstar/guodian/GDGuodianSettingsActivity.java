@@ -5,6 +5,7 @@ import com.dbstar.guodian.model.GDSettings;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -94,6 +95,12 @@ public class GDGuodianSettingsActivity extends GDBaseActivity {
 				return ret;
 			}
 		});
+		
+		initializeView();
+		
+		Intent intent = getIntent();
+		mMenuPath = intent.getStringExtra(INTENT_KEY_MENUPATH);
+		showMenuPath(mMenuPath.split(MENU_STRING_DELIMITER));
 	}
 
 	public void onServiceStart() {

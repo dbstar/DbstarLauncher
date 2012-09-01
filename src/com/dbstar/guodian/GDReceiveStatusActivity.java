@@ -6,6 +6,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -74,12 +75,17 @@ public class GDReceiveStatusActivity extends GDBaseActivity {
 
 		mObserver = this;
 
-		mMenuPath = getResources().getString(R.string.systemsettings_settings);
+		//mMenuPath = getResources().getString(R.string.systemsettings_settings);
 
 		setContentView(R.layout.download_status_view);
 
 		mPageDatas = new LinkedList<ReceiveEntry[]>();
+		
 		initializeView();
+		
+		Intent intent = getIntent();
+		mMenuPath = intent.getStringExtra(INTENT_KEY_MENUPATH);
+		showMenuPath(mMenuPath.split(MENU_STRING_DELIMITER));
 	}
 
 	public void onStart() {

@@ -19,6 +19,7 @@ public class GDPowerUsageController implements ClientObserver {
 	
 	private static final String TAG = "GDPowerUsageController";
 	private static final int RequestPowerPeriod = 900000; // 15minutes
+	private static final int RequestPowerShortPeriod = 10000;// 10s
 	
 	private String mCCID = "89277089728430810813";
 	
@@ -30,6 +31,11 @@ public class GDPowerUsageController implements ClientObserver {
 	private Handler mScheduler = new Handler();
 	
 	private ClientObserver mObserver = null;
+	
+	// When get power for the first time and can't get power for no network or other reasons,
+	// it will try to get power at interval of RequestPowerShortPeriod.
+	// when we got power, then we change the interval to RequestPowerPeriod
+	private boolean mPowerIsGot = false;
 	
 	private Runnable mTask = new Runnable() {
 
@@ -46,7 +52,11 @@ public class GDPowerUsageController implements ClientObserver {
 				mService.getTotalCostByChargeType(mObserver, mCCID, date_start, date_end, charge_type);
 			}
 
-			mScheduler.postDelayed(mTask, RequestPowerPeriod);
+			if (mPowerIsGot) {
+				mScheduler.postDelayed(mTask, RequestPowerPeriod);
+			} else {
+				mScheduler.postDelayed(mTask, RequestPowerShortPeriod);
+			}
 		}
 		
 	};
@@ -63,7 +73,20 @@ public class GDPowerUsageController implements ClientObserver {
 			mService.getSettingsValue(mObserver, GDSettings.SettingSerialNumber);
 		}
 		
+		mScheduler.removeCallbacks(mTask);
 		mScheduler.postDelayed(mTask, 0);
+	}
+
+	public void stop() {
+		mScheduler.removeCallbacks(mTask);
+	}
+	
+	public void networkIsReady (boolean ready) {
+		if (ready) {
+			;
+		} else {
+			
+		}
 	}
 
 	private String getDateStart() {
@@ -96,6 +119,8 @@ public class GDPowerUsageController implements ClientObserver {
 	@Override
 	public void updateData(int type, int param1, int param2, Object data) {
 		if (type == GDDataProviderService.REQUESTTYPE_GETPOWERCONSUMPTION) {
+			mPowerIsGot = true;
+
 			String consumption = (String)data;
 			Message message = mUiHandler.obtainMessage(GDLauncherActivity.MSG_UPDATE_POWERCONSUMPTION);
 			Bundle parm = new Bundle();
@@ -103,6 +128,8 @@ public class GDPowerUsageController implements ClientObserver {
 			message.setData(parm);
 			mUiHandler.sendMessage(message);
 		} else if (type == GDDataProviderService.REQUESTTYPE_GETTOTALCOSTBYCHARGETYPE) {
+			mPowerIsGot = true;
+
 			String totalCost = (String)data;
 			
 			Message message = mUiHandler.obtainMessage(GDLauncherActivity.MSG_UPDATE_POWERTOTALCOST);

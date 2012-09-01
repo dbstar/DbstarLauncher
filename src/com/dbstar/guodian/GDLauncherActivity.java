@@ -30,6 +30,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,6 +41,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.BaseAdapter;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -190,20 +192,27 @@ public class GDLauncherActivity extends GDBaseActivity implements GDApplicationO
 	 */
 	Vector<Stack<MenuItem>> mSubMenuArray;
 
-	private static final int MENULEVEL1_ITEM_GUOWANG = 0;
-	private static final int MENULEVEL1_ITEM_SMARTPOWER = 1;
-	private static final int MENULEVEL1_ITEM_SMARTHOME = 2;
+	private static final int MENULEVEL1_ITEM_SMARTPOWER = 0;
+	private static final int MENULEVEL1_ITEM_SMARTHOME = 1;
+	private static final int MENULEVEL1_ITEM_GUOWANG = 2;
 	private static final int MENULEVEL1_ITEM_HDMOVIE = 3;
 	private static final int MENULEVEL1_ITEM_TV = 4;
 	private static final int MENULEVEL1_ITEM_RECORD = 5;
-	private static final int MENULEVEL1_ITEM_ZONGYI = 6;
-	private static final int MENULEVEL1_ITEM_PAPER = 7;
-	private static final int MENULEVEL1_ITEM_JOURNAL = 8;
-	private static final int MENULEVEL1_ITEM_BOOK = 9;
-	private static final int MENULEVEL1_ITEM_3D = 10;
-	private static final int MENULEVEL1_ITEM_DEMO = 11;
-	private static final int MENULEVEL1_ITEM_IPTV = 12;
-	private static final int MENULEVEL1_ITEM_COUNT = 13;
+	private static final int MENULEVEL1_ITEM_VARIETY = 6;
+	private static final int MENULEVEL1_ITEM_CHILDREN = 7;
+	private static final int MENULEVEL1_ITEM_3D = 8;
+	private static final int MENULEVEL1_ITEM_TRAILER = 9;
+	private static final int MENULEVEL1_ITEM_SETTINGS = 10;
+
+	private static final int MENULEVEL1_ITEM_COUNT = 11;
+	
+	private static final int MENULEVEL1_ITEM_ZONGYI = 11;
+	private static final int MENULEVEL1_ITEM_PAPER = 12;
+	private static final int MENULEVEL1_ITEM_JOURNAL = 13;
+	private static final int MENULEVEL1_ITEM_BOOK = 14;
+	private static final int MENULEVEL1_ITEM_DEMO = 15;
+	private static final int MENULEVEL1_ITEM_IPTV = 16;
+	private static final int MENULEVEL1_ITEM_HEALTHY = 17;
 	
 	private static final int MENULEVEL2_GUOWANG_KUAIXUNINDEX = 0;
 	private static final int MENULEVEL2_GUOWANG_SHIPININDEX = 1;
@@ -213,6 +222,7 @@ public class GDLauncherActivity extends GDBaseActivity implements GDApplicationO
 		String ColumnId;
 		String MenuText;
 		Bitmap MenuIcon;
+		Bitmap MenuIconFocused;
 	};
 	
 	MenuLevel1Item[] mMenuLevel1Items;
@@ -288,9 +298,24 @@ public class GDLauncherActivity extends GDBaseActivity implements GDApplicationO
 	}
 
 	private Bitmap mDefaultPoster = null;
+	
+	private static final int MENULEVEL1ITEMWIDTH = 111;
+	private static final int MENULEVEL1ITEMHEIGHT= 131;
+	private static final int MENULEVEL1FOCUSEDITEMWIDTH = 174;
+	private static final int MENULEVEL1FOCUSEDITEMHEIGHT=157;
+	
+	private int mMenuLevel1ItemWidth, mMenuLevel1ItemHeight;
+	private int mMenuLevel1FocusedItemWidth, mMenuLevel1FocusedItemHeight;
+	
 	protected void initalizeView() {
 
 		super.initializeView();
+		
+		float density = getResources().getDisplayMetrics().density;
+		mMenuLevel1ItemWidth = (int)density * MENULEVEL1ITEMWIDTH;
+		mMenuLevel1ItemHeight = (int)density * MENULEVEL1ITEMHEIGHT;
+		mMenuLevel1FocusedItemWidth = (int)density * MENULEVEL1FOCUSEDITEMWIDTH;
+		mMenuLevel1FocusedItemHeight = (int)density * MENULEVEL1FOCUSEDITEMHEIGHT;
 		
 		AssetManager am = getAssets();
 		
@@ -321,85 +346,146 @@ public class GDLauncherActivity extends GDBaseActivity implements GDApplicationO
 		mMenuLevel1Items[MENULEVEL1_ITEM_GUOWANG].ColumnId = "160";
 		mMenuLevel1Items[MENULEVEL1_ITEM_GUOWANG].MenuIcon = 
 				BitmapFactory.decodeResource(getResources(), R.drawable.menulevel1_item_guowang);
+		mMenuLevel1Items[MENULEVEL1_ITEM_GUOWANG].MenuIconFocused = 
+				BitmapFactory.decodeResource(getResources(), R.drawable.menulevel1_item_guowang_focused);
 		mMenuLevel1Items[MENULEVEL1_ITEM_GUOWANG].MenuText = getResources()
 				.getString(R.string.menulevel1_item_guowang);
 		
 		mMenuLevel1Items[MENULEVEL1_ITEM_SMARTPOWER].ColumnId = "158";
 		mMenuLevel1Items[MENULEVEL1_ITEM_SMARTPOWER].MenuIcon = 
 				BitmapFactory.decodeResource(getResources(), R.drawable.menulevel1_item_smartpower);
+		mMenuLevel1Items[MENULEVEL1_ITEM_SMARTPOWER].MenuIconFocused = 
+				BitmapFactory.decodeResource(getResources(), R.drawable.menulevel1_item_smartpower_focused);
 		mMenuLevel1Items[MENULEVEL1_ITEM_SMARTPOWER].MenuText = getResources()
 				.getString(R.string.menulevel1_item_smartpower);
 		
 		mMenuLevel1Items[MENULEVEL1_ITEM_SMARTHOME].ColumnId = "159";
 		mMenuLevel1Items[MENULEVEL1_ITEM_SMARTHOME].MenuIcon = 
 				BitmapFactory.decodeResource(getResources(), R.drawable.menulevel1_item_smarthome);
+		mMenuLevel1Items[MENULEVEL1_ITEM_SMARTHOME].MenuIconFocused = 
+				BitmapFactory.decodeResource(getResources(), R.drawable.menulevel1_item_smarthome_focused);
 		mMenuLevel1Items[MENULEVEL1_ITEM_SMARTHOME].MenuText = getResources()
 				.getString(R.string.menulevel1_item_smarthome);
 
 		mMenuLevel1Items[MENULEVEL1_ITEM_HDMOVIE].ColumnId = "50";
 		mMenuLevel1Items[MENULEVEL1_ITEM_HDMOVIE].MenuIcon = 
 				BitmapFactory.decodeResource(getResources(), R.drawable.menulevel1_item_hdmovie);
+		mMenuLevel1Items[MENULEVEL1_ITEM_HDMOVIE].MenuIconFocused = 
+				BitmapFactory.decodeResource(getResources(), R.drawable.menulevel1_item_hdmovie_focused);
 		mMenuLevel1Items[MENULEVEL1_ITEM_HDMOVIE].MenuText = getResources()
 				.getString(R.string.menulevel1_item_hdmovie);
 		
 		mMenuLevel1Items[MENULEVEL1_ITEM_TV].ColumnId = "150";
 		mMenuLevel1Items[MENULEVEL1_ITEM_TV].MenuIcon = 
 				BitmapFactory.decodeResource(getResources(), R.drawable.menulevel1_item_tv);
+		mMenuLevel1Items[MENULEVEL1_ITEM_TV].MenuIconFocused = 
+				BitmapFactory.decodeResource(getResources(), R.drawable.menulevel1_item_tv_focused);
 		mMenuLevel1Items[MENULEVEL1_ITEM_TV].MenuText = getResources()
 				.getString(R.string.menulevel1_item_tv);
 		
 		mMenuLevel1Items[MENULEVEL1_ITEM_RECORD].ColumnId = "151";
 		mMenuLevel1Items[MENULEVEL1_ITEM_RECORD].MenuIcon = 
-				BitmapFactory.decodeResource(getResources(), R.drawable.menulevel1_item_record);
+				BitmapFactory.decodeResource(getResources(), R.drawable.menulevel1_item_documentary);
+		mMenuLevel1Items[MENULEVEL1_ITEM_RECORD].MenuIconFocused = 
+				BitmapFactory.decodeResource(getResources(), R.drawable.menulevel1_item_documentary_focused);
 		mMenuLevel1Items[MENULEVEL1_ITEM_RECORD].MenuText = getResources()
 				.getString(R.string.menulevel1_item_record);
 		
-		mMenuLevel1Items[MENULEVEL1_ITEM_ZONGYI].ColumnId = "152";
-		mMenuLevel1Items[MENULEVEL1_ITEM_ZONGYI].MenuIcon = 
-				BitmapFactory.decodeResource(getResources(), R.drawable.menulevel1_item_zongyi);
-		mMenuLevel1Items[MENULEVEL1_ITEM_ZONGYI].MenuText = getResources()
-				.getString(R.string.menulevel1_item_zongyi);
+//		mMenuLevel1Items[MENULEVEL1_ITEM_ZONGYI].ColumnId = "152";
+//		mMenuLevel1Items[MENULEVEL1_ITEM_ZONGYI].MenuIcon = 
+//				BitmapFactory.decodeResource(getResources(), R.drawable.menulevel1_item_zongyi);
+//		mMenuLevel1Items[MENULEVEL1_ITEM_ZONGYI].MenuIconFocused = 
+//				BitmapFactory.decodeResource(getResources(), R.drawable.menulevel1_item_zongyi_focused);
+//		mMenuLevel1Items[MENULEVEL1_ITEM_ZONGYI].MenuText = getResources()
+//				.getString(R.string.menulevel1_item_zongyi);
 		
 		
-		mMenuLevel1Items[MENULEVEL1_ITEM_PAPER].ColumnId = "153";
-		mMenuLevel1Items[MENULEVEL1_ITEM_PAPER].MenuIcon = 
-				BitmapFactory.decodeResource(getResources(), R.drawable.menulevel1_item_paper);
-		mMenuLevel1Items[MENULEVEL1_ITEM_PAPER].MenuText = getResources()
-				.getString(R.string.menulevel1_item_paper);
-		
-		
-		mMenuLevel1Items[MENULEVEL1_ITEM_JOURNAL].ColumnId = "154";
-		mMenuLevel1Items[MENULEVEL1_ITEM_JOURNAL].MenuIcon = 
-				BitmapFactory.decodeResource(getResources(), R.drawable.menulevel1_item_journal);
-		mMenuLevel1Items[MENULEVEL1_ITEM_JOURNAL].MenuText = getResources()
-				.getString(R.string.menulevel1_item_journal);
-		
-		mMenuLevel1Items[MENULEVEL1_ITEM_BOOK].ColumnId = "155";
-		mMenuLevel1Items[MENULEVEL1_ITEM_BOOK].MenuIcon = 
-				BitmapFactory.decodeResource(getResources(), R.drawable.menulevel1_item_book);
-		mMenuLevel1Items[MENULEVEL1_ITEM_BOOK].MenuText = getResources()
-				.getString(R.string.menulevel1_item_book);
-
-		
-		mMenuLevel1Items[MENULEVEL1_ITEM_DEMO].ColumnId = "156";
-		mMenuLevel1Items[MENULEVEL1_ITEM_DEMO].MenuIcon = 
-				BitmapFactory.decodeResource(getResources(), R.drawable.menulevel1_item_zongyi);
-		mMenuLevel1Items[MENULEVEL1_ITEM_DEMO].MenuText = getResources()
-				.getString(R.string.menulevel1_item_demo);
+//		mMenuLevel1Items[MENULEVEL1_ITEM_PAPER].ColumnId = "153";
+//		mMenuLevel1Items[MENULEVEL1_ITEM_PAPER].MenuIcon = 
+//				BitmapFactory.decodeResource(getResources(), R.drawable.menulevel1_item_default);
+//		mMenuLevel1Items[MENULEVEL1_ITEM_PAPER].MenuIconFocused = 
+//				BitmapFactory.decodeResource(getResources(), R.drawable.menulevel1_item_default_focused);
+//		mMenuLevel1Items[MENULEVEL1_ITEM_PAPER].MenuText = getResources()
+//				.getString(R.string.menulevel1_item_paper);
+//		
+//		
+//		mMenuLevel1Items[MENULEVEL1_ITEM_JOURNAL].ColumnId = "154";
+//		mMenuLevel1Items[MENULEVEL1_ITEM_JOURNAL].MenuIcon = 
+//				BitmapFactory.decodeResource(getResources(), R.drawable.menulevel1_item_default);
+//		mMenuLevel1Items[MENULEVEL1_ITEM_JOURNAL].MenuIconFocused = 
+//				BitmapFactory.decodeResource(getResources(), R.drawable.menulevel1_item_default_focused);
+//		mMenuLevel1Items[MENULEVEL1_ITEM_JOURNAL].MenuText = getResources()
+//				.getString(R.string.menulevel1_item_journal);
+//		
+//		mMenuLevel1Items[MENULEVEL1_ITEM_BOOK].ColumnId = "155";
+//		mMenuLevel1Items[MENULEVEL1_ITEM_BOOK].MenuIcon = 
+//				BitmapFactory.decodeResource(getResources(), R.drawable.menulevel1_item_default);
+//		mMenuLevel1Items[MENULEVEL1_ITEM_BOOK].MenuIconFocused = 
+//				BitmapFactory.decodeResource(getResources(), R.drawable.menulevel1_item_default_focused);
+//		mMenuLevel1Items[MENULEVEL1_ITEM_BOOK].MenuText = getResources()
+//				.getString(R.string.menulevel1_item_book);
+//
+//		
 		
 		mMenuLevel1Items[MENULEVEL1_ITEM_3D].ColumnId = "157";
 		mMenuLevel1Items[MENULEVEL1_ITEM_3D].MenuIcon = 
-				BitmapFactory.decodeResource(getResources(), R.drawable.menulevel1_item_tv);
+				BitmapFactory.decodeResource(getResources(), R.drawable.menulevel1_item_3d);
+		mMenuLevel1Items[MENULEVEL1_ITEM_3D].MenuIconFocused = 
+				BitmapFactory.decodeResource(getResources(), R.drawable.menulevel1_item_3d_focused);
 		mMenuLevel1Items[MENULEVEL1_ITEM_3D].MenuText = getResources()
 				.getString(R.string.menulevel1_item_3d);
 		
 		
-		mMenuLevel1Items[MENULEVEL1_ITEM_IPTV].ColumnId = "161";
-		mMenuLevel1Items[MENULEVEL1_ITEM_IPTV].MenuIcon = 
-				BitmapFactory.decodeResource(getResources(), R.drawable.menulevel1_item_iptv);
-		mMenuLevel1Items[MENULEVEL1_ITEM_IPTV].MenuText = getResources()
-				.getString(R.string.menulevel1_item_iptv);
+//		mMenuLevel1Items[MENULEVEL1_ITEM_IPTV].ColumnId = "161";
+//		mMenuLevel1Items[MENULEVEL1_ITEM_IPTV].MenuIcon = 
+//				BitmapFactory.decodeResource(getResources(), R.drawable.menulevel1_item_iptv);
+//		mMenuLevel1Items[MENULEVEL1_ITEM_IPTV].MenuIconFocused = 
+//				BitmapFactory.decodeResource(getResources(), R.drawable.menulevel1_item_iptv_focused);
+//		mMenuLevel1Items[MENULEVEL1_ITEM_IPTV].MenuText = getResources()
+//				.getString(R.string.menulevel1_item_iptv);
 		
+		mMenuLevel1Items[MENULEVEL1_ITEM_VARIETY].ColumnId = "152";
+		mMenuLevel1Items[MENULEVEL1_ITEM_VARIETY].MenuIcon = 
+				BitmapFactory.decodeResource(getResources(), R.drawable.menulevel1_item_variety);
+		mMenuLevel1Items[MENULEVEL1_ITEM_VARIETY].MenuIconFocused = 
+				BitmapFactory.decodeResource(getResources(), R.drawable.menulevel1_item_variety_focused);
+		mMenuLevel1Items[MENULEVEL1_ITEM_VARIETY].MenuText = getResources()
+				.getString(R.string.menulevel1_item_variety);
+		
+		
+//		mMenuLevel1Items[MENULEVEL1_ITEM_HEALTHY].ColumnId = "161";
+//		mMenuLevel1Items[MENULEVEL1_ITEM_HEALTHY].MenuIcon = 
+//				BitmapFactory.decodeResource(getResources(), R.drawable.menulevel1_item_healthy);
+//		mMenuLevel1Items[MENULEVEL1_ITEM_HEALTHY].MenuIconFocused = 
+//				BitmapFactory.decodeResource(getResources(), R.drawable.menulevel1_item_healthy_focused);
+//		mMenuLevel1Items[MENULEVEL1_ITEM_HEALTHY].MenuText = getResources()
+//				.getString(R.string.menulevel1_item_healthy);
+		
+		mMenuLevel1Items[MENULEVEL1_ITEM_TRAILER].ColumnId = "156";
+		mMenuLevel1Items[MENULEVEL1_ITEM_TRAILER].MenuIcon = 
+				BitmapFactory.decodeResource(getResources(), R.drawable.menulevel1_item_trailer);
+		mMenuLevel1Items[MENULEVEL1_ITEM_TRAILER].MenuIconFocused = 
+				BitmapFactory.decodeResource(getResources(), R.drawable.menulevel1_item_trailer_focused);
+		mMenuLevel1Items[MENULEVEL1_ITEM_TRAILER].MenuText = getResources()
+				.getString(R.string.menulevel1_item_trailer);
+		
+		mMenuLevel1Items[MENULEVEL1_ITEM_CHILDREN].ColumnId = "0";
+		mMenuLevel1Items[MENULEVEL1_ITEM_CHILDREN].MenuIcon = 
+				BitmapFactory.decodeResource(getResources(), R.drawable.menulevel1_item_children);
+		mMenuLevel1Items[MENULEVEL1_ITEM_CHILDREN].MenuIconFocused = 
+				BitmapFactory.decodeResource(getResources(), R.drawable.menulevel1_item_children_focused);
+		mMenuLevel1Items[MENULEVEL1_ITEM_CHILDREN].MenuText = getResources()
+				.getString(R.string.menulevel1_item_children);
+		
+		mMenuLevel1Items[MENULEVEL1_ITEM_SETTINGS].ColumnId = "0";
+		mMenuLevel1Items[MENULEVEL1_ITEM_SETTINGS].MenuIcon = 
+				BitmapFactory.decodeResource(getResources(), R.drawable.menulevel1_item_settings);
+		mMenuLevel1Items[MENULEVEL1_ITEM_SETTINGS].MenuIconFocused = 
+				BitmapFactory.decodeResource(getResources(), R.drawable.menulevel1_item_settings_focused);
+		mMenuLevel1Items[MENULEVEL1_ITEM_SETTINGS].MenuText = getResources()
+				.getString(R.string.menulevel1_item_settings);
+		
+		mMenuLevel1ItemsCount = MENULEVEL1_ITEM_COUNT * 2;
 
 		Yuan = getResources().getString(R.string.string_yuan);
 		Degree = getResources().getString(R.string.string_degree);
@@ -461,9 +547,9 @@ public class GDLauncherActivity extends GDBaseActivity implements GDApplicationO
 				mMenuLevel1SelectionIndex = mMenuLevel1
 						.getSelectedItemPosition() - START_ITEM_INDEX;
 				
-				if (mMenuLevel1SelectionIndex < 0) {
-					mMenuLevel1SelectionIndex = mMenuLevel1SelectionIndex +  mMenuLevel1Items.length;
-				}
+//				if (mMenuLevel1SelectionIndex < 0) {
+//					mMenuLevel1SelectionIndex = mMenuLevel1SelectionIndex +  mMenuLevel1Items.length;
+//				}
 				
 				mMenuLevel1SelectionIndex = mMenuLevel1SelectionIndex % mMenuLevel1Items.length;
 				
@@ -526,10 +612,9 @@ public class GDLauncherActivity extends GDBaseActivity implements GDApplicationO
 		super.onServiceStart();
 
 		mService.registerAppObserver(this);
+
+		startEngine();
 		
-		mGDMediaScheduler.start(mService);
-		mPowerController.start(mService);
-		//mWeatherController.start(mService);
 		initializeData();
 
 		updatePowerView(mPowerConsumption, mPowerCost);
@@ -560,6 +645,18 @@ public class GDLauncherActivity extends GDBaseActivity implements GDApplicationO
 		mService.unRegisterAppObserver(this);
 	}
 
+	private void startEngine() {
+		mGDMediaScheduler.start(mService);
+		mPowerController.start(mService);
+		//mWeatherController.start(mService);
+	}
+	
+	private void stopEngine() {
+//		mGDMediaScheduler.start(mService);
+//		mPowerController.start(mService);
+		//mWeatherController.start(mService);
+	}
+	
 	private void initializeData() {
 		//showLoadingDialog();
 		
@@ -570,7 +667,7 @@ public class GDLauncherActivity extends GDBaseActivity implements GDApplicationO
 		
 		// GuoWang
 		menuItem = new MenuItem();
-		columns = new ColumnData[3];
+		columns = new ColumnData[2];
 		for(int i=0 ; i<columns.length ; i++) {
 			columns[i] = new ColumnData();
 		}
@@ -578,7 +675,7 @@ public class GDLauncherActivity extends GDBaseActivity implements GDApplicationO
 		columns[0].Name = getResources().getString(R.string.menulevel2_item_guowangkuaixun);
 		columns[1].Name = getResources().getString(R.string.menulevel2_item_shipindongtai);
 		columns[1].Id = "250";
-		columns[2].Name = getResources().getString(R.string.menulevel2_item_guojiadianwangbao);
+		//columns[2].Name = getResources().getString(R.string.menulevel2_item_guojiadianwangbao);
 
 		columnItems = new ColumnItem[columns.length];
 		for (int i=0 ; i<columnItems.length ; i++) {
@@ -652,8 +749,49 @@ public class GDLauncherActivity extends GDBaseActivity implements GDApplicationO
 		
 		menuStack = mSubMenuArray.get(MENULEVEL1_ITEM_SMARTHOME);
 		menuStack.add(menuItem);
+		
 
-		for (int i = MENULEVEL1_ITEM_HDMOVIE; i < mMenuLevel1Items.length; i++) {
+		// Settings
+		menuItem = new MenuItem();
+		columns = new ColumnData[6];
+		for (int i = 0; i < columns.length; i++) {
+			columns[i] = new ColumnData();
+		}
+		columns[0].Name = getResources().getString(
+				R.string.systemsettings_userinfo);
+		columns[1].Name = getResources().getString(
+				R.string.systemsettings_receivestatus);
+		columns[2].Name = getResources().getString(
+				R.string.systemsettings_diskspace);
+//		columns[3].Name = getResources().getString(
+//				R.string.systemsettings_settings);
+		columns[3].Name = getResources().getString(
+				R.string.systemsettings_guodian);
+		columns[4].Name = getResources().getString(
+				R.string.systemsettings_filebrowser);
+		columns[5].Name = getResources().getString(
+				R.string.systemsettings_advanced);
+
+		columnItems = new ColumnItem[columns.length];
+		for (int i = 0; i < columnItems.length; i++) {
+			columnItems[i] = new ColumnItem();
+
+			columnItems[i].Level = COLUMN_LEVEL_2;
+			columnItems[i].HasSubColumns = ColumnItem.NO_SUBCOLUMNS;
+			columnItems[i].SubItems = null;
+
+			columnItems[i].Column = columns[i];
+		}
+
+		menuItem.Items = columnItems;
+		menuItem.SelectedItemIndex = 0;
+
+		menuStack = mSubMenuArray.get(MENULEVEL1_ITEM_SETTINGS);
+		menuStack.add(menuItem);
+		
+
+		// not incude the last item "Settings"
+		for (int i = MENULEVEL1_ITEM_HDMOVIE; i < MENULEVEL1_ITEM_COUNT - 1; i++) {
 			mService.getColumns(this, COLUMN_LEVEL_1, i, mMenuLevel1Items[i].ColumnId);
 		}
 
@@ -811,12 +949,12 @@ public class GDLauncherActivity extends GDBaseActivity implements GDApplicationO
 	}
 
 	private void showMenuPath() {
-		if (!mShowMenuPathIsOn)
-			return;
-
 		buildMenuPath();
 		String[] menuPath = mMenuPath.split(MENU_STRING_DELIMITER);
 		
+		if (!mShowMenuPathIsOn)
+			return;
+
 		if (mMenuPathContainer.getVisibility() != View.VISIBLE) {
 			mMenuPathContainer.setVisibility(View.VISIBLE);
 		}
@@ -923,6 +1061,9 @@ public class GDLauncherActivity extends GDBaseActivity implements GDApplicationO
 //			mMenuLevel1.onKeyDown(keyCode, event);
 
 			int selectedItemIndex = mMenuLevel1.getSelectedItemPosition();
+			if (selectedItemIndex >= mMenuLevel1Items.length + START_ITEM_INDEX ) {
+				selectedItemIndex -= mMenuLevel1Items.length;
+			}
 			Log.d(TAG, "moveLeft");
 			int newPosition = selectedItemIndex + 1;
 			mMenuLevel1.setSelection(newPosition, false);
@@ -942,14 +1083,14 @@ public class GDLauncherActivity extends GDBaseActivity implements GDApplicationO
 			ret = true; // not handle back key in main view
 			break;
 
-		case KeyEvent.KEYCODE_F1: // for debug with keyboard
-		case KeyEvent.KEYCODE_F2:
-		case KeyEvent.KEYCODE_INFO:
-		case KeyEvent.KEYCODE_NOTIFICATION:
-		case KeyEvent.KEYCODE_MENU:
-			ret = true;
-			showSettingsChooserView();
-			break;
+//		case KeyEvent.KEYCODE_F1: // for debug with keyboard
+//		case KeyEvent.KEYCODE_F2:
+//		case KeyEvent.KEYCODE_INFO:
+//		case KeyEvent.KEYCODE_NOTIFICATION:
+//		case KeyEvent.KEYCODE_MENU:
+//			ret = true;
+//			showSettingsChooserView();
+//			break;
 		default:
 			break;
 		}
@@ -1102,7 +1243,8 @@ public class GDLauncherActivity extends GDBaseActivity implements GDApplicationO
 				}
 			}
 
-		} else if (index == MENULEVEL1_ITEM_TV) {
+		} else if (index == MENULEVEL1_ITEM_TV || index == MENULEVEL1_ITEM_RECORD
+				|| index == MENULEVEL1_ITEM_VARIETY || index == MENULEVEL1_ITEM_3D) {
 
 			if (currentSubMenuItems != null && currentSubMenuItems.length > 0) {
 				int menuLevel2ItemIndex = menuItem.SelectedItemIndex;
@@ -1149,6 +1291,15 @@ public class GDLauncherActivity extends GDBaseActivity implements GDApplicationO
 					intent.setClass(this, GDTVActivity.class);
 					startActivity(intent);
 				}
+			} else {
+				// Has no sub-menu, only level1
+				String columnId = mMenuLevel1Items[index].ColumnId;
+				Intent intent = new Intent();
+				intent.putExtra(Content.COLUMN_ID, columnId);
+				intent.putExtra(INTENT_KEY_MENUPATH, mMenuPath);
+				Log.d(TAG, "menu path = " + mMenuPath);
+				intent.setClass(this, GDHDMovieActivity.class);
+				startActivity(intent);
 			}
 		} else if (index == MENULEVEL1_ITEM_IPTV) {
 			
@@ -1274,24 +1425,30 @@ public class GDLauncherActivity extends GDBaseActivity implements GDApplicationO
 					startActivity(intent);
 				}
 			}
-		} else {
+		} else if (index == MENULEVEL1_ITEM_SETTINGS) { 
+			//showSettingsChooserView();
+			if (currentSubMenuItems != null && currentSubMenuItems.length > 0) {
+				int menuLevel2ItemIndex = menuItem.SelectedItemIndex;
+				if (menuLevel2ItemIndex >= 0
+						&& menuLevel2ItemIndex < currentSubMenuItems.length) {
+					showSettingView(menuLevel2ItemIndex);
+				}
+			}
+		}else {
 			;
 		}
 
 		return ret;
 	}
 
-//	private int getMenuLevel1SelectedItemIndex() {
-//		int index = 
-//	}
-	
 	private void showMenuLevel1Highlight(boolean updateSubMenu) {
+		//int index = mMenuLevel1SelectionIndex % mMenuLevel1Items.length;
 		int index = mMenuLevel1SelectionIndex % mMenuLevel1Items.length;
 		Log.d(TAG, "hightlight=" + mMenuLevel1SelectionIndex + " text="
 				+ mMenuLevel1Items[index].MenuText);
 
 		mMenuLevel1SelectionText.setText(mMenuLevel1Items[index].MenuText);
-		mMenuLevel1SelectionIcon.setImageBitmap(mMenuLevel1Items[index].MenuIcon);
+		mMenuLevel1SelectionIcon.setImageBitmap(mMenuLevel1Items[index].MenuIconFocused);
 
 		if (!updateSubMenu) {
 			long time = AnimationUtils.currentAnimationTimeMillis();
@@ -1361,11 +1518,11 @@ public class GDLauncherActivity extends GDBaseActivity implements GDApplicationO
 	public static final int SystemSettingsUserInfo = 0;
 	public static final int SystemSettingsDownloadingStatus = 1;
 	public static final int SystemSettingsDiskSpace = 2;
-	public static final int SystemSettingsSettings = 3;
-	public static final int SystemSettingsGuodian = 4;
-	public static final int SystemSettingsFileBrowser = 5;
-	public static final int SystemSettingsAdvanced = 6;
-	public static final int SystemSettingsCount = 7;
+	//public static final int SystemSettingsSettings = 3;
+	public static final int SystemSettingsGuodian = 3;
+	public static final int SystemSettingsFileBrowser = 4;
+	public static final int SystemSettingsAdvanced = 5;
+	public static final int SystemSettingsCount = 6;
 	
 	private void showSettingView(int settingsItemIndex) {
 		if (settingsItemIndex < 0 || settingsItemIndex > SystemSettingsCount - 1) {
@@ -1395,10 +1552,12 @@ public class GDLauncherActivity extends GDBaseActivity implements GDApplicationO
 				intent.setClass(this, GDDiskManagmentActivity.class);
 			}
 			break;
-		case SystemSettingsSettings:
-			intent = new Intent();
-			intent.setClass(this, GDSystemSettingsActivity.class);
-			break;
+//		case SystemSettingsSettings:
+//			intent = new Intent();
+//			intent.setClass(this, GDSystemSettingsActivity.class);
+//			break;
+			
+//			return;
 			
 		case SystemSettingsGuodian:
 			intent = new Intent();
@@ -1420,6 +1579,7 @@ public class GDLauncherActivity extends GDBaseActivity implements GDApplicationO
 			break;
 		}
 
+		intent.putExtra(INTENT_KEY_MENUPATH, mMenuPath);
 		startActivity(intent);
 	}
 	
@@ -1564,6 +1724,8 @@ public class GDLauncherActivity extends GDBaseActivity implements GDApplicationO
 
 	}
 
+	private int mMenuLevel1ItemsCount = 0;
+	
 	public class MenuLevel1Adapter extends BaseAdapter {
 
 		Context mContext;
@@ -1578,7 +1740,7 @@ public class GDLauncherActivity extends GDBaseActivity implements GDApplicationO
 		}
 
 		public int getCount() {
-			return Integer.MAX_VALUE;
+			return mMenuLevel1ItemsCount;
 		}
 
 		public Object getItem(int position) {
@@ -1588,7 +1750,32 @@ public class GDLauncherActivity extends GDBaseActivity implements GDApplicationO
 		public long getItemId(int position) {
 			return 0;
 		}
+		
+		/*public View getView(int position, View convertView, ViewGroup parent) {
 
+			Log.d(TAG, "get position= " + position);
+
+			if (convertView == null) {
+				FrameLayout view = new FrameLayout(mContext);
+				ImageView itemIcon = new ImageView(mContext);
+				
+				position = position % mMenuLevel1Items.length;
+				
+				itemIcon.setImageBitmap(mMenuLevel1Items[position].MenuIcon);
+				itemIcon.setScaleType(ImageView.ScaleType.FIT_XY);
+
+				FrameLayout.LayoutParams frameLayout = new FrameLayout.LayoutParams(
+						mMenuLevel1ItemWidth, mMenuLevel1ItemHeight);
+				frameLayout.gravity = Gravity.CENTER;
+
+				view.addView(itemIcon, frameLayout);
+				
+				convertView = view;
+			}
+
+			return convertView;
+		}*/
+		
 		public View getView(int position, View convertView, ViewGroup parent) {
 
 			Log.d(TAG, "get position= " + position);
@@ -1609,10 +1796,6 @@ public class GDLauncherActivity extends GDBaseActivity implements GDApplicationO
 			} else {
 				holder = (ItemHolder) convertView.getTag();
 			}
-
-			if (position < 0) {
-				position = position + mMenuLevel1Items.length;
-			}
 			
 			position = position % mMenuLevel1Items.length;
 			holder.icon.setImageBitmap(mMenuLevel1Items[position].MenuIcon);
@@ -1626,7 +1809,8 @@ public class GDLauncherActivity extends GDBaseActivity implements GDApplicationO
 	@Override
 	public void initializeApp() {
 		Log.d(TAG, "++++++++++==========initializeApp ================  =====");
-		mGDMediaScheduler.start(mService);
+		//mGDMediaScheduler.start(mService);
+		startEngine();
 
 		initializeData();
 	}

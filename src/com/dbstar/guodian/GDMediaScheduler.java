@@ -79,8 +79,14 @@ public class GDMediaScheduler implements OnCompletionListener,
 		mResourcesReady = false;
 		mUIReady = false;
 	}
+	
+	private boolean mEngineStarted = false;
 
 	public void start(GDDataProviderService service) {
+		if (mEngineStarted)
+			return;
+		
+		mEngineStarted = true;
 		mService = service;
 		
 		mResources = new String[2];

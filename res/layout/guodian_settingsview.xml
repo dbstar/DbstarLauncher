@@ -157,5 +157,12 @@
         android:text="@string/button_text_ok"
         android:textColor="#ffffff"
         android:textSize="20sp" />
+    
+	<include
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        layout="@layout/footerview" />
 
 </RelativeLayout>

@@ -1,19 +1,14 @@
 package com.dbstar.guodian;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStreamReader;
 
 import com.dbstar.guodian.util.GDNetworkUtil;
+import com.dbstar.guodian.widget.GDWebView;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.net.wifi.WifiInfo;
-import android.net.wifi.WifiManager;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -24,6 +19,8 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+
+import android.net.ConnectivityManager;
 
 public class GDWebBrowserActivity extends Activity {
 	private static final String TAG = "WebBrowserActivity";
@@ -41,6 +38,12 @@ public class GDWebBrowserActivity extends Activity {
 		setContentView(R.layout.webview);
 
 		mWebView = (WebView) findViewById(R.id.web_view);
+	
+		mWebView.requestFocus(View.FOCUS_DOWN);
+
+		mWebView.setBackgroundColor(Color.TRANSPARENT);
+		mWebView.setOverScrollMode(View.OVER_SCROLL_NEVER);
+		
 		WebSettings settings = mWebView.getSettings();
 		settings.setJavaScriptEnabled(true);
 
@@ -92,10 +95,10 @@ public class GDWebBrowserActivity extends Activity {
 		//
 		// mWebView.getSettings().setHardwareAccelSkiaEnabled(true);
 		//
-//		mWebView.setWebViewClient(mWVClient);
-//		mWebView.setWebChromeClient(mChromeClient);
-		mWebView.setWebViewClient(new WebViewClient());
-		mWebView.setWebChromeClient(new WebChromeClient());
+		mWebView.setWebViewClient(mWVClient);
+		mWebView.setWebChromeClient(mChromeClient);
+//		mWebView.setWebViewClient(new WebViewClient());
+//		mWebView.setWebChromeClient(new WebChromeClient());
 
 		mWebView.setOnKeyListener(new View.OnKeyListener() {
 
@@ -106,6 +109,14 @@ public class GDWebBrowserActivity extends Activity {
 				int action = event.getAction();
 				if (action == KeyEvent.ACTION_DOWN) {
 					switch (keyCode) {
+//					case KeyEvent.KEYCODE_DPAD_LEFT: {
+//						
+//						break;
+//					}
+//					case KeyEvent.KEYCODE_DPAD_RIGHT:
+//						break;
+//					
+//					
 					case KeyEvent.KEYCODE_ESCAPE:
 					case KeyEvent.KEYCODE_BACK: {
 						ret = true;
@@ -119,8 +130,6 @@ public class GDWebBrowserActivity extends Activity {
 				return ret;
 			}
 		});
-		
-		//loadDefaultHomePage(mWebView);
 
 		Intent intent = getIntent();
 		String url = intent.getStringExtra("url");
@@ -200,15 +209,5 @@ public class GDWebBrowserActivity extends Activity {
 		}
 
 		return mMacAddress;
-	}
-
-	
-	public void loadDefaultHomePage(WebView webView) {
-//	    final String mimeType = "text/html";
-//	    final String encoding = "utf-8";
-//	    final String html = "<h1>Header</h1><p>Custom HTML</p><p><img src=\"file:///android_asset/images/webview_background.png\" /></p>";
-	    
-	    //webView.loadDataWithBaseURL("", html, mimeType, encoding, "");
-		webView.loadUrl("file:///android_asset/images/container_bj.jpg");
 	}
 }

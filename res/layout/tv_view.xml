@@ -130,7 +130,12 @@
         </LinearLayout>
     </ScrollView>
 	
-	<RelativeLayout
+    <include
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        layout="@layout/footerview" />
+        
+	<!--  --><RelativeLayout
         android:id="@+id/view_Footer"
         android:layout_width="fill_parent"
         android:layout_height="50dp"
@@ -196,5 +201,5 @@
                 android:visibility="invisible" />
              
         </LinearLayout>
-    </RelativeLayout>
+    </RelativeLayout> -->
 </RelativeLayout>

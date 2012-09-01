@@ -476,13 +476,13 @@ public class GDCalendarGB {
 		
 		str += cDay(chineseDate);
 		
-		if (gregorianDate == sectionalTerm) {
-			str += " " + sectionalTermNames[gregorianMonth - 1];
-		} else if (gregorianDate == principleTerm) {
-			str +=  " " + principleTermNames[gregorianMonth - 1];
-		} else {
-			;
-		} 
+//		if (gregorianDate == sectionalTerm) {
+//			str += " " + sectionalTermNames[gregorianMonth - 1];
+//		} else if (gregorianDate == principleTerm) {
+//			str +=  " " + principleTermNames[gregorianMonth - 1];
+//		} else {
+//			;
+//		} 
 
 		return str;
 	}

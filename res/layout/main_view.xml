@@ -340,14 +340,12 @@
 
         <ImageView
             android:id="@+id/item_icon"
-            android:layout_width="112dp"
+            android:layout_width="126dp"
             android:layout_height="112dp"
             android:layout_above="@id/item_text"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="0dp"
             android:layout_marginTop="0dp"
-            android:background="@drawable/menulevel1_item_bg"
-            android:padding="13dp"
             android:scaleType="fitXY" />
     </RelativeLayout>
 
@@ -371,8 +369,8 @@
             android:cacheColorHint="#00000000"
             android:divider="@android:color/transparent"
             android:dividerHeight="4.0dp"
-            android:gravity="bottom"
-            android:listSelector="@drawable/menulevel2_listitem_focused"
+            android:gravity="top"
+            android:listSelector="@drawable/menulevel2_listitem_pressed"
             android:paddingBottom="20dp"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
@@ -380,6 +378,11 @@
             android:visibility="gone" />
     </RelativeLayout>
 
+     <!--<include
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        layout="@layout/footerview" />-->
+        
     <RelativeLayout
         android:id="@+id/view_Footer"
         android:layout_width="fill_parent"
@@ -477,6 +480,6 @@
             app:textColor="#ffffffff"
             app:textSize="16sp" />
 
-</RelativeLayout>
+	</RelativeLayout>
 
 </RelativeLayout>

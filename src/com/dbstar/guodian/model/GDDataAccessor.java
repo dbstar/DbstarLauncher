@@ -26,6 +26,7 @@ public class GDDataAccessor {
 	private static final String ConfigureFile = "/data/dbstar/dbstar.conf";
 	private static final String WEATHER_CITYCODE_DATABASE = "/data/dbstar/weather_citycode.db";
 	private static final String DefaultPushPath = "/videos1/pushvod/";
+	private static final String GuodianServer = "GuodianServer";
 
 	private static final String PROPERTY_STORAGE_DIR = "storage";
 	private static final String PROPERTY_DEMO_MOVIE = "demo_movie";
@@ -52,6 +53,7 @@ public class GDDataAccessor {
 	private String mStorageDir = "";
 	private String mPushPath = "";
 	private String mHomePage = "";
+	private String mGuodianServer = "";
 
 	private String[][] mCategoryContents = { { Property_GuoWangDongTai, "" },
 			{ Property_GuoWangKuaiXun, "" }, { Property_ShiPinDongTai, "" },
@@ -211,6 +213,10 @@ public class GDDataAccessor {
 	public String getHomePage() {
 		return mHomePage;
 	}
+	
+	public String getGuodianServer() {
+		return mGuodianServer;
+	}
 
 	public void getPushedMessage(List<String> retMessages) {
 		if (retMessages == null || mPushedMessage == null || mPushedMessage.size() == 0)
@@ -308,6 +314,8 @@ public class GDDataAccessor {
 						Property_BaoZhi = property[1].trim();
 					} else if (property[0].equals("pushpath")) {
 						mPushPath = property[1].trim();
+					} else if (property[0].equals("GuodianServer")){
+						mGuodianServer = property[1].trim();
 					} else if (property[0].equals("PushedMessage")) {
 						if (mPushedMessage == null) {
 							mPushedMessage = new ArrayList<String>();
